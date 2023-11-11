@@ -3,6 +3,7 @@
 
 ### Documentation:
 - **[Tugas 7](#tugas-7)**<br>
+- **[Tugas 8](#tugas-8)**<br>
 
 ***
 
@@ -268,4 +269,443 @@ final List<ShopItem> items = [
       color: item.color,
 
       ...
+```
+
+***
+
+# Tugas 8
+
+## Perbedaan Navigator.push() dan Navigator.pushReplacement()
+Walaupun `push()` dan `pushReplacement()` sekilas terlihat mirip, namun perbedaan kedua method tersebut terletak pada apa yang dilakukan kepada route yang berada pada atas stack. `push()` akan menambahkan route baru diatas route yang sudah ada pada atas stack, sedangkan `pushReplacement()` menggantikan route yang sudah ada pada atas stack dengan route baru tersebut.
+- `Navigator.push()` digunakan ketika kita ingin menambahkan halaman baru ke dalam tumpukan navigasi dan membiarkan pengguna kembali ke halaman sebelumnya.
+- `Navigator.pushReplacement()` digunakan ketika kita ingin menggantikan halaman saat ini dengan halaman baru dan tidak ingin menyimpan halaman saat ini di tumpukan.
+
+## Layout widgets
+1. **Single-child layout widgets**
+
+| Layout    | Usage |
+| -------- | ------- |
+| Container  | Model kotak yang dapat berisi widget lain. |
+| Center | untuk menempatkan widget anak di tengah-tengah dirinya |
+| Align    | untuk menempatkan widget anak di dalamnya dengan menggunakan `FractionalOffset`. |
+| FittedBox    | untuk menyesuaikan dan menempatkan widget anak di dalamnya. |
+| AspectRatio    | untuk memberikan rasio aspek tertentu pada widget anaknya.|
+| FractionallySizedBox | untuk memberikan ukuran widget anak sebagai pecahan dari total ruang yang tersedia |
+| IntrinsicHeight & IntrinsicWidth | untuk memberikan ukuran widget anak sesuai dengan tinggi atau lebar intrinsiknya |
+| LimitedBox  | untuk membatasi tinggi atau lebar maksimum dari widget anaknya |
+| ConstrainedBox  | untuk memberikan batasan ukuran (constraints) pada widget anaknya. |
+| CustomSingleChildLayout  | memungkinkan membuat tata letak kustom untuk satu widget anak. |
+| Expanded  | untuk mengisi sebanyak mungkin ruang yang tersedia di dalam widget parentnya. |
+| Padding  | untuk menambahkan ruang bantal (padding) di sekitar widget anaknya. |
+| Offstage  | untuk menyembunyikan atau menampilkan widget anak tanpa menghapusnya dari widget tree |
+| OverflowBox  | untuk memungkinkan widget anak keluar dari batas-batas widget parentnya. |
+| SizedOverflowBox  | memungkinkan widget anak memiliki ukuran yang berbeda dari batas-batas widget parentnya |
+| Transform  | untuk menerapkan transformasi seperti translasi, rotasi, dan scaling pada widget anaknya |
+
+2. **Multi-child layout widgets**
+
+| Layout    | Usage |
+| -------- | ------- |
+| Row & Column  | untuk menyusun widget secara horizontal (Row) atau vertikal (Column) |
+| ListView | digunakan untuk menampilkan daftar item yang dapat di-scroll |
+| GridView    | untuk menampilkan widget dalam bentuk grid |
+| Flow | menyusun widget anaknya dengan algoritma flow, memungkinkan tata letak yang dinamis dan responsif |
+| Wrap | untuk menyusun widget anaknya dalam baris atau kolom, tetapi memindah ke baris atau kolom baru jika tidak cukup ruang |
+| IndexedStack | menumpuk semua widget anak, tetapi hanya satu yang terlihat pada satu waktu berdasarkan indeks |
+| Table | untuk menyusun widget dalam bentuk tabel dengan baris dan kolom |
+| Stack  | untuk menumpuk widget anaknya satu di atas yang lain |
+| LayoutBuilder  | Membangun widget sesuai dengan batasan tata letak (constraints) yang diberikan oleh widget parentnya. Menggunakan `Builder` yang memberikan konteks dan constraints untuk membangun widget. |
+| CustomMultiChildLayout | Membuat tata letak kustom untuk beberapa widget anak. Perlu mengimplementasikan metode `performLayout` untuk menentukan posisi dan ukuran masing-masing widget anak |
+| ListBody | mengatur widget anaknya dalam bentuk list tanpa perlu menggunakan `ListView`. Mendistribusikan ruang secara seimbang di antara widget anak. |
+
+3. Sliver widgets
+
+| Layout    | Usage |
+| -------- | ------- |
+| SliverAppBar  | elemen AppBar yang mengikuti aturan scrolling |
+| SliverList | versi scrollable dari `ListView`, dirancang untuk digunakan dalam `CustomScrollView` |
+| SliverGrid | versi scrollable dari `GridView`, dirancang untuk digunakan dalam `CustomScrollView`. |
+| SliverToBoxAdapter | menyisipkan widget non-sliver ke dalam daftar sliver. |
+
+## Elemen input
+
+Elemen input yang saya pakai pada form yang ada di tugas ini hanya `TextFormField` dengan validasi input tertentu. Saya menggunakan elemen input tersebut karena isi formnya mengharuskan pengguna untuk mengetik sendiri semua data-data yang dibutuhkan, dan `TextFormField` merupakan elemen yang paling cocok untuk tujuan tersebut. Untuk melengkapi fungsionalitasnya, saya menambahkan `inputFormatters` untuk memvalidasi input yang dimasukkan user.
+
+## Clean architecture
+
+Dalam Flutter, implementasi Clean Architecture dapat melibatkan pembagian kode ke dalam tiga lapisan utama: Presenter (atau ViewModel di Flutter), Use Case, dan Repository. Ini memisahkan logika bisnis dari kerangka UI dan infrastruktur.
+
+1. Presenter: 
+    - Bertanggung jawab untuk logika tampilan dan interaksi pengguna.
+    - Menggunakan model untuk menampung dan memanipulasi data yang akan ditampilkan.
+2. Use Case:
+    - Mengekstrak dan memproses data dari repository.
+    - Mengandung aturan bisnis dan logika aplikasi.
+3. Repository:
+    - Berkomunikasi dengan sumber daya eksternal seperti API atau database.
+    - Menyediakan data yang dibutuhkan oleh use case.
+
+## Langkah-langkah implementasi
+
+### Halaman formulir tambah item
+1. Membuat file baru bernama `additem_form.dart` dan tambahkan kode berikut.
+```
+import 'package:flutter/material.dart';
+
+class ShopFormPage extends StatefulWidget {
+    const ShopFormPage({super.key});
+
+    @override
+    State<ShopFormPage> createState() => _ShopFormPageState();
+}
+
+class _ShopFormPageState extends State<ShopFormPage> {
+
+    @override
+    Widget build(BuildContext context) {
+        return Placeholder();
+    }
+}
+```
+2. Ubah widget Placeholder dengan kode berikut.
+```
+Scaffold(
+  appBar: AppBar(
+    title: const Center(
+      child: Text(
+        'Form Tambah Produk',
+      ),
+    ),
+    backgroundColor: Colors.black,
+    foregroundColor: Colors.white,
+    iconTheme: IconThemeData(color: Colors.white),
+  ),
+  // TODO: Tambahkan drawer yang sudah dibuat di sini
+  body: Form(
+    child: SingleChildScrollView()
+  ),
+);
+```
+3. Buat variabel baru bernama _formKey lalu tambahkan _formKey tersebut ke dalam atribut key milik widget Form. Atribut key akan berfungsi sebagai handler dari form state, validasi form, dan penyimpanan form.
+```
+...
+class _ShopFormPageState extends State<ShopFormPage> {
+    final _formKey = GlobalKey<FormState>();
+...
+```
+
+```
+...
+body: Form(
+     key: _formKey,
+     child: SingleChildScrollView(),
+),
+...
+```
+4. Buat variable untuk menyimpan input dari masing-masing field yang akan dibuat.
+```
+...
+class _ShopFormPageState extends State<ShopFormPage> {
+    final _formKey = GlobalKey<FormState>();
+    String _name = "";
+    String _category = "";
+    int _amount = 0;
+    int _price = 0;
+    String _description = "";
+    ...
+```
+5. Buat widget Column sebagai child dari SingleChildScrollView.
+```
+...
+body: Form(
+      key: _formKey,
+      child: SingleChildScrollView(
+        child: Column()
+      )
+...
+```
+6. Buat widget TextFormField yang dibungkus oleh Padding sebagai salah satu children dari widget Column. Setelah itu, tambahkan atribut crossAxisAlignment untuk mengatur alignment children dari Column.
+```
+child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: TextFormField(
+          decoration: InputDecoration(
+            hintText: "Nama Item",
+            labelText: "Nama Item",
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5.0),
+            ),
+          ),
+          onChanged: (String? value) {
+            setState(() {
+              _name = value!;
+            });
+          },
+          validator: (String? value) {
+            if (value == null || value.isEmpty) {
+              return "Nama tidak boleh kosong!";
+            }
+            return null;
+          },
+        ),
+      ),
+```
+> Ulangi langkah ini untuk setiap field yang dibutuhkan untuk input.
+
+> Bagian validator akan memastikan input tidak dapat kosong
+7. Untuk data yang bertipe integer, tambahkan kode berikut untuk memastikan inputnya berisi data integer.
+```
+...
+ keyboardType: TextInputType.number,
+inputFormatters: <TextInputFormatter>[
+  FilteringTextInputFormatter.digitsOnly,
+  // Hanya menerima input digit
+],
+// TODO: Tambahkan variabel yang sesuai
+onChanged: (String? value) {
+  setState(() {
+    _amount = int.parse(value!);
+  });
+},
+...
+```
+8. Buatlah tombol sebagai child selanjutnya dari Column. Bungkus tombol ke dalam widget Padding dan Align. Kali ini kita tidak akan menyimpan data ke dalam database, namun kita akan memunculkannya pada pop-up yang akan muncul setelah tombol ditekan
+```
+...
+Align(
+  alignment: Alignment.bottomCenter,
+  child: Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: ElevatedButton(
+      style: ButtonStyle(
+        backgroundColor:
+            MaterialStateProperty.all(Colors.indigo),
+      ),
+      onPressed: () {
+        if (_formKey.currentState!.validate()) {}
+      },
+      child: const Text(
+        "Save",
+        style: TextStyle(color: Colors.white),
+      ),
+    ),
+  ),
+),
+...
+```
+### Mengarahkan pengguna ke halaman form tambah item baru ketika menekan tombol Tambah Item pada halaman utama.
+
+1. Pada `menu.dart`, import file halaman formulir yang telah dibuat.
+```
+import 'package:manageit_mobile/screens/additem_form.dart';
+```
+2. Di bawah bagian `ScaffoldMessenger`, tambahkan kode berikut untuk menambahkan navigasi ke halaman formulir yang sudah dibuat.
+```
+onTap: () {
+          // Memunculkan SnackBar ketika diklik
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(SnackBar(
+                content: Text("Kamu telah menekan tombol ${item.name}!")));
+            
+          // Navigate ke route yang sesuai (tergantung jenis tombol)
+          if (item.name == "Tambah Item") {
+            // TODO: Gunakan Navigator.push untuk melakukan navigasi ke MaterialPageRoute yang mencakup ShopFormPage.
+            Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ShopFormPage(),
+            ));
+          }
+        },
+```
+
+### Memunculkan data dalam popup
+1. Tambahkan fungsi showDialog() pada bagian onPressed() dan munculkan widget AlertDialog pada fungsi tersebut. Kemudian, tambahkan juga fungsi untuk reset form.
+```
+...
+child: ElevatedButton(
+  style: ButtonStyle(
+    backgroundColor:
+        MaterialStateProperty.all(Colors.indigo),
+  ),
+  onPressed: () {
+    if (_formKey.currentState!.validate()) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Produk berhasil tersimpan'),
+            content: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment:
+                    CrossAxisAlignment.start,
+                children: [
+                  Text('Nama: $_name'),
+                  Text('Category: $_category'),
+                  Text('Price: $_price'),
+                  Text('Amount: $_amount'),
+                  Text('Description: $_description'),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        },
+      );
+    _formKey.currentState!.reset();
+    }
+  },
+  child: const Text(
+    "Save",
+    style: TextStyle(color: Colors.white),
+  ),
+),
+...
+```
+
+### Membuat drawer
+1. Buatlah berkas baru di dalam direktori baru widgets dengan nama `left_drawer.dart`. Tambahkan kode berikut ke dalam berkas `left_drawer.dart`.
+```
+import 'package:flutter/material.dart';
+
+class LeftDrawer extends StatelessWidget {
+  const LeftDrawer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        children: [
+          const DrawerHeader(
+            // TODO: Bagian drawer header
+          ),
+          // TODO: Bagian routing
+        ],
+      ),
+    );
+  }
+}
+```
+2. Berikutnya, tambahkan impor untuk halaman-halaman yang kita ingin masukkan navigasinya ke dalam Drawer Menu
+```
+import 'package:flutter/material.dart';
+import 'package:manageit_mobile/screens/additem_form.dart';
+import 'package:manageit_mobile/screens/menu.dart';
+```
+
+3. Setelah berhasil impor, kita akan memasukkan routing untuk halaman-halaman yang kita impor ke bagian `TODO: Bagian routing`.
+```
+// TODO: Bagian routing
+ListTile(
+  leading: const Icon(Icons.home_outlined),
+  title: const Text('Halaman Utama'),
+  // Bagian redirection ke MyHomePage
+  onTap: () {
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MyHomePage(),
+        ));
+  },
+),
+ListTile(
+  leading: const Icon(Icons.add_shopping_cart),
+  title: const Text('Tambah Item'),
+  // Bagian redirection ke ShopFormPage
+  onTap: () {
+    /*
+    TODO: Buatlah routing ke ShopFormPage di sini,
+    setelah halaman ShopFormPage sudah dibuat.
+    */
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const ShopFormPage(),
+        ));
+  },
+),
+```
+4. Selanjutnya, tambahkan dekorasi untuk bagian header drawer.
+```
+const DrawerHeader(
+  // TODO: Bagian drawer header
+  decoration: BoxDecoration(
+    color: Colors.black,
+  ),
+  child: Column(
+    children: [
+      Text(
+        'Manage.it',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 30,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+      ),
+      Padding(padding: EdgeInsets.all(10)),
+      Text("Start manage it!",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+          ),
+    ],
+  ),
+),
+```
+5. Terakhir, masukkan drawer ke halaman `menu.dart` dan `additem_form.dart`.
+
+menu.dart
+```
+...
+// Impor drawer widget
+import 'package:shopping_list/widgets/left_drawer.dart';
+...
+return Scaffold(
+  appBar: AppBar(
+  title: const Text(
+    'Manage.it',
+    style: TextStyle(color: Colors.white),
+  ),
+  iconTheme: IconThemeData(color: Colors.white),
+  backgroundColor: Colors.black,
+),
+drawer: const LeftDrawer(),
+...
+```
+additem_form.dart
+```
+...
+// TODO: Impor drawer yang sudah dibuat sebelumnya
+import 'package:manageit_mobile/widgets/left_drawer.dart';
+...
+
+return Scaffold(
+appBar: AppBar(
+  title: const Center(
+    child: Text(
+      'Form Tambah Produk',
+    ),
+  ),
+  backgroundColor: Colors.black,
+  foregroundColor: Colors.white,
+  iconTheme: IconThemeData(color: Colors.white),
+),
+// TODO: Tambahkan drawer yang sudah dibuat di sini
+drawer: const LeftDrawer(),
+...
 ```
