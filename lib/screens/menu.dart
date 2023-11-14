@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:manageit_mobile/models/item_model.dart';
 import 'package:manageit_mobile/widgets/left_drawer.dart';
 import 'package:manageit_mobile/screens/additem_form.dart';
 import 'package:manageit_mobile/widgets/shop_card.dart';
+import 'package:manageit_mobile/screens/itemlist_page.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key}) : super(key: key);
@@ -99,6 +101,12 @@ class ShopCard extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => const ShopFormPage(),
+            ));
+          }else if(item.name == "Lihat Item"){
+            Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ItemListPage(itemList: itemList),
             ));
           }
         },

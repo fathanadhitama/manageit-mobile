@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // TODO: Impor drawer yang sudah dibuat sebelumnya
 import 'package:manageit_mobile/widgets/left_drawer.dart';
+import 'package:manageit_mobile/models/item_model.dart';
+
+List<Item> itemList = [];
 
 class ShopFormPage extends StatefulWidget {
     const ShopFormPage({super.key});
@@ -165,7 +168,7 @@ class _ShopFormPageState extends State<ShopFormPage> {
                       },
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
-                          return "Kategori tidak boleh kosong!";
+                          return "Deskripsi tidak boleh kosong!";
                         }
                         return null;
                       },
@@ -182,6 +185,15 @@ class _ShopFormPageState extends State<ShopFormPage> {
                         ),
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
+                            Item newItem = Item(
+                              name: _name,
+                              price: _price, 
+                              amount: _amount,
+                              description: _description, 
+                              category: _category
+                            );
+
+                            itemList.add(newItem);
                             showDialog(
                               context: context,
                               builder: (context) {

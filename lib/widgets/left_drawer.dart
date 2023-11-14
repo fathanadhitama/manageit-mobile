@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:manageit_mobile/screens/additem_form.dart';
 import 'package:manageit_mobile/screens/menu.dart';
-
+import 'package:manageit_mobile/screens/itemlist_page.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -66,6 +66,22 @@ class LeftDrawer extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => const ShopFormPage(),
+                  ));
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.checklist),
+            title: const Text('Lihat Item'),
+            // Bagian redirection ke ShopFormPage
+            onTap: () {
+              /*
+              TODO: Buatlah routing ke ShopFormPage di sini,
+              setelah halaman ShopFormPage sudah dibuat.
+              */
+               Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ItemListPage(itemList: itemList),
                   ));
             },
           ),
