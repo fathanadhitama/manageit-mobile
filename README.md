@@ -792,6 +792,7 @@ user = authenticate(username=username, password=password)
 | SizedBox | Widget yang mengatur ruang kosong atau spasi dalam tata letak Flutter |
 | FutureBuilder | Widget yang membantu dalam membangun UI berdasarkan status masa depan (future).  |
 | ElevatedButton  | Widget yang menampilkan tombol dengan latar belakang yang naik ketika ditekan. |
+| TextField  | membuat input teks yang memungkinkan pengguna untuk memasukkan teks atau informasi lainnya melalui keyboard |
 
 ## Step by step checklist
 
@@ -971,4 +972,60 @@ appBar: AppBar(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
         ),
+```
+
+## Bonus
+### Fitur Registrasi
+1. Membuat file `register.dart` pada folder `lib/screens/`.
+2. Menambahkan `TextField` untuk input username dan password.
+3. Pada proyek django, tambahkan fungsi `register` pada file `views.py` di app `authentication`, kemudian tambahkan path-nya di `urls.py`
+4. Setelah itu, tambahkan `ElevatedButton` yang memiliki properti `onPressed` yang berfungsi untuk mengirim request ke endpoint `/auth/register` pada proyek django yang dibuat tadi.
+5. Jika register berhasil, arahkan user ke halaman login.
+
+### Filter item based on user
+1. Pada fungsi `login` pada `views.py` di app `authentication`, tambahkan atribut `user.id` saat mengembalikan `JsonResponse`.
+```
+return JsonResponse({
+                "username": user.username,
+                "status": True,
+                "message": "Login sukses!",
+                "id": user.id,
+            }, status=200)
+```
+2. Pada halaman `login.dart`, tambahkan kelas `User` dan buat variable `loggedInUser` untuk mengecek user yang sedang login.
+```
+...
+User? loggedInUser;
+
+class User {
+  final String username;
+  final int id;
+
+  User(this.username, this.id);
+}
+...
+```
+3. Kemudian, pada bagian `onPressed`, inisiasi `loggedInUser` tersebut.
+```
+...
+ if (request.loggedIn) {
+    String message = response['message'];
+    String uname = response['username'];
+    int id = response['id'];
+    loggedInUser = User(uname, id);
+...
+```
+4. Pada file `list_items.dart`, modifikasi fungsi `fetchProduct()` untuk mengecek id user tiap item ketika mengonversi data json menjadi object `Item`.
+```
+// melakukan konversi data json menjadi object Product
+    List<Item> list_item = [];
+    for (var d in data) {
+        if (d != null) {
+            Item item = Item.fromJson(d);
+            if(item.fields.user == loggedInUser?.id){
+              list_item.add(item);
+            }
+        }
+    }
+    return list_item;
 ```
