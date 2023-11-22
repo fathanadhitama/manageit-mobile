@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:manageit_mobile/models/item_model.dart';
+import 'package:manageit_mobile/screens/list_items.dart';
+import 'package:manageit_mobile/screens/login.dart';
 import 'package:manageit_mobile/widgets/left_drawer.dart';
 import 'package:manageit_mobile/screens/additem_form.dart';
 import 'package:manageit_mobile/widgets/shop_card.dart';
 import 'package:manageit_mobile/screens/itemlist_page.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
 
 class MyHomePage extends StatelessWidget {
   MyHomePage({Key? key}) : super(key: key);
@@ -83,11 +87,12 @@ class ShopCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final request = context.watch<CookieRequest>();
     return Material(
       color: item.color,
       child: InkWell(
         // Area responsive terhadap sentuhan
-        onTap: () {
+        onTap: () async {
           // Memunculkan SnackBar ketika diklik
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
@@ -106,9 +111,31 @@ class ShopCard extends StatelessWidget {
             Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => ItemListPage(itemList: itemList),
+              builder: (context) => const ItemPage(),
             ));
+          }else if (item.name == "Logout") {
+            final response = await request.logout(
+                // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
+                // "http://127.0.0.1:8000/auth/logout/"
+                "https://fathan-naufal-tugas.pbp.cs.ui.ac.id/auth/logout/"
+                );
+            String message = response["message"];
+            if (response['status']) {
+              String uname = response["username"];
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("$message Sampai jumpa, $uname."),
+              ));
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+              );
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text("$message"),
+              ));
+            }
           }
+
         },
         child: Container(
           // Container untuk menyimpan Icon dan Text

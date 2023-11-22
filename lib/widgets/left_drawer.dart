@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:manageit_mobile/screens/additem_form.dart';
+import 'package:manageit_mobile/screens/list_items.dart';
 import 'package:manageit_mobile/screens/menu.dart';
 import 'package:manageit_mobile/screens/itemlist_page.dart';
 
@@ -81,7 +82,7 @@ class LeftDrawer extends StatelessWidget {
                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ItemListPage(itemList: itemList),
+                    builder: (context) => const ItemPage(),
                   ));
             },
           ),
